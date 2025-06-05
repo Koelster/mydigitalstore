@@ -101,7 +101,6 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.9.0
 mdurl==0.1.2
-MetaTrader5==5.0.4200
 ml-dtypes==0.3.2
 more-itertools==10.2.0
 MouseInfo==0.1.3
