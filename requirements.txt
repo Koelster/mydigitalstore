@@ -167,7 +167,6 @@ python-socketio==5.12.1
 pytweening==1.2.0
 pytz==2025.2
 pywifi==1.1.12
-pywin32==308
 pywin32-ctypes==0.2.3
 PyYAML==6.0.2
 pyzmq==25.1.2
