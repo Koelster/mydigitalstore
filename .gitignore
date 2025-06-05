@@ -1,0 +1,39 @@
+# === Python Compiled Files ===
+__pycache__/
+*.py[cod]
+*.pyo
+
+# === Environment Files ===
+.env
+.venv/
+venv/
+env/
+
+# === IDE and Editor Files ===
+.vscode/
+.idea/
+*.swp
+
+# === OS System Files ===
+.DS_Store
+Thumbs.db
+
+# === Flask Cache / Logs / Instance Folders ===
+instance/
+*.log
+
+# === Python Package Distribution ===
+*.egg-info/
+dist/
+build/
+
+# === SQLite Database Files ===
+*.sqlite3
+*.db
+
+# === Static Uploaded or Generated Content (optional if generated locally) ===
+images/previews/
+images/thumbnails/
+
+# === Node (if using frontend tools) ===
+node_modules/
