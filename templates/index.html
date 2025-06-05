@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <!-- SEO Meta Tags -->
+  <title>{{ meta_title or 'MyDigitalStore | Digital Downloads' }}</title>
+  <meta name="description" content="{{ meta_desc or 'Explore digital designs, art, and creative content available instantly from MyDigitalStore.' }}">
+  <meta name="keywords" content="digital downloads, designs, t-shirts, mugs, sublimation, art, graphics">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="{{ meta_title or 'MyDigitalStore | Digital Downloads' }}">
+  <meta property="og:description" content="{{ meta_desc or 'Explore and download digital creative designs instantly from MyDigitalStore.' }}">
+  <meta property="og:image" content="{{ meta_image or url_for('static', filename='images/logo.png', _external=True) }}">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ meta_title or 'MyDigitalStore | Digital Downloads' }}">
+  <meta name="twitter:description" content="{{ meta_desc or 'Explore and download digital creative designs instantly from MyDigitalStore.' }}">
+  <meta name="twitter:image" content="{{ meta_image or url_for('static', filename='images/logo.png', _external=True) }}">
+</head>
+<body>
+  <header>
+    <div class="logo">MyDigitalStore</div>
+
+    <!-- Mobile Toggle Button -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <nav id="mobileMenu">
+      <a href="{{ url_for('index') }}" class="active">Home</a>
+      <a href="{{ url_for('product_list') }}">All Products</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Welcome to MyDigitalStore</h1>
+      <p>Download digital designs, art, and creative files instantly.</p>
+
+      <!-- Unified CTA + Dynamic Category Buttons -->
+      <div class="cta-bar">
+        <a href="{{ url_for('product_list') }}" class="cta-button">Browse All Products</a>
+        {% for cat in categories %}
+          <button class="category-button" onclick="filterCategory('{{ cat }}')">{{ cat.title() }}</button>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- === SEARCH BAR === -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Search for pictures..." />
+    </div>
+
+    <h2 style="text-align:center;">Featured Products</h2>
+    <div class="product-grid">
+      {% for product in products[:12] %}
+        <div class="product-card" data-category="{{ product.category|lower }}">
+          <a href="{{ url_for('product_detail', slug=product.slug) }}">
+            <img src="{{ url_for('static', filename='images/thumbnails/' + product.filename) }}" alt="{{ product.name }}">
+            <h2 class="product-title">{{ product.name }}</h2>
+          </a>
+          <p class="category">{{ product.category.title() }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 MyDigitalStore. All rights reserved.</p>
+  </footer>
+
+  <!-- JSON-LD Schema Markup for the Website -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MyDigitalStore",
+    "url": "{{ request.url_root }}",
+    "description": "Explore and download creative digital designs, graphics, and sublimation-ready artwork from MyDigitalStore.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "MyDigitalStore",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ url_for('static', filename='images/logo.png', _external=True) }}"
+      }
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ request.url_root }}?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("mobileMenu");
+      nav.classList.toggle("active");
+    }
+
+    function filterCategory(category) {
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (category === 'all' || cardCategory === category.toLowerCase()) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById("searchInput").value = "";
+    }
+
+    function filterProducts() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const title = card.querySelector('.product-title').innerText.toLowerCase();
+        if (title.includes(input)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

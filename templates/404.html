@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    body {
+      background: url("https://www.svgrepo.com/show/330195/lost-search.svg") no-repeat center center fixed;
+      background-size: contain;
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .logo a {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    nav ul li a {
+      color: white;
+      font-weight: 500;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .error-page {
+      text-align: center;
+      padding: 100px 20px;
+      backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 140px auto 80px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-page h1 {
+      font-size: 6rem;
+      margin-bottom: 10px;
+      color: #ff4c4c;
+    }
+
+    .error-page p {
+      font-size: 1.2rem;
+      color: #444;
+    }
+
+    .error-page input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+      font-size: 1rem;
+    }
+
+    .error-page .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 24px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .error-page .btn:hover {
+      background-color: #0056b3;
+    }
+
+    header, footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    footer {
+      margin-top: 40px;
+    }
+
+    @media (max-width: 480px) {
+      .error-page {
+        padding: 60px 20px;
+        margin: 100px 10px;
+      }
+
+      .error-page h1 {
+        font-size: 4rem;
+      }
+
+      .error-page input[type="text"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="{{ url_for('index') }}">MyDigitalStore</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('product_list') }}">All Products</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 404 Content -->
+  <div class="error-page">
+    <h1>404</h1>
+    <p>Oops! We couldn't find that page.</p>
+    <input type="text" placeholder="Try searching for a product...">
+    <br>
+    <a href="{{ url_for('index') }}" class="btn">Back to Homepage</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 MyDigitalStore. All rights reserved.</p>
+  </footer>
+</body>
+</html>

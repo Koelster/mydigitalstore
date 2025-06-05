@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Download Ready - {{ product.name }}</title>
+  <meta name="description" content="Your payment was successful. Download {{ product.name }} now.">
+  <meta name="robots" content="noindex">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Download Ready - {{ product.name }}">
+  <meta property="og:description" content="Secure download link for your purchase is ready.">
+  <meta property="og:image" content="{{ url_for('static', filename='images/previews/' + product.filename, _external=True) }}">
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="{{ request.url }}">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Download Ready - {{ product.name }}">
+  <meta name="twitter:description" content="Your digital download is ready. Thank you for purchasing!">
+  <meta name="twitter:image" content="{{ url_for('static', filename='images/previews/' + product.filename, _external=True) }}">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ product.name }}",
+    "image": "{{ url_for('static', filename='images/previews/' + product.filename, _external=True) }}",
+    "description": "{{ product.meta_desc }}",
+    "sku": "{{ product.slug }}",
+    "brand": {
+      "@type": "Organization",
+      "name": "MyDigitalStore"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "ZAR",
+      "price": "{{ product.price_zar }}",
+      "availability": "https://schema.org/InStock",
+      "url": "{{ request.url }}"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <style>
+    .success-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 25px;
+      background-color: #e7f8ec;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .success-container h1 {
+      color: #28a745;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .success-container p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+    }
+
+    .success-container img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .download-link,
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .download-link {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .download-link:hover {
+      background-color: #0056b3;
+    }
+
+    .back-button {
+      background-color: #6c757d;
+      color: white;
+      margin-left: 10px;
+    }
+
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+
+    @media (max-width: 480px) {
+      .success-container {
+        margin: 20px 10px;
+        padding: 20px;
+      }
+
+      .download-link,
+      .back-button {
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyDigitalStore</div>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('product_list') }}">All Products</a>
+    </nav>
+  </header>
+
+  <div class="success-container">
+    <h1>✅ Payment Successful!</h1>
+    <p>Thank you for your purchase. A secure download link was sent to:</p>
+    <p><strong>{{ email }}</strong></p>
+
+    <img src="{{ url_for('static', filename='images/previews/' + product.filename) }}" alt="{{ product.name }}">
+
+    <a href="{{ download_link }}" class="download-link" download>Download Now</a>
+    <a href="{{ url_for('index') }}" class="back-button">Back to Store</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 MyDigitalStore. All rights reserved.</p>
+  </footer>
+</body>
+</html>

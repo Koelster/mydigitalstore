@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <!-- SEO Meta Tags -->
+  <title>{{ meta_title or 'All Products - MyDigitalStore' }}</title>
+  <meta name="description" content="{{ meta_desc or 'Browse the complete range of digital products and downloads available on MyDigitalStore.' }}">
+  <meta name="keywords" content="digital downloads, all products, MyDigitalStore, design assets, t-shirts, mugs, sublimation art">
+
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="{{ meta_title or 'All Products - MyDigitalStore' }}">
+  <meta property="og:description" content="{{ meta_desc or 'Browse the complete range of digital products and downloads available on MyDigitalStore.' }}">
+  <meta property="og:image" content="{{ meta_image or url_for('static', filename='images/logo.png', _external=True) }}">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ meta_title or 'All Products - MyDigitalStore' }}">
+  <meta name="twitter:description" content="{{ meta_desc or 'Browse the complete range of digital products and downloads available on MyDigitalStore.' }}">
+  <meta name="twitter:image" content="{{ meta_image or url_for('static', filename='images/logo.png', _external=True) }}">
+
+  <!-- JSON-LD Schema Markup for CollectionPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "All Products - MyDigitalStore",
+    "description": "A complete collection of digital products including sublimation-ready designs, art, and creative assets.",
+    "url": "{{ request.url }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "MyDigitalStore",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ url_for('static', filename='images/logo.png', _external=True) }}"
+      }
+    }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="logo">MyDigitalStore</div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <nav id="mobileMenu">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('product_list') }}" class="active">All Products</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Explore All Products</h1>
+      <p>Browse the full collection of downloadable designs and digital content.</p>
+
+      <!-- CTA + Dynamic Category Buttons -->
+      <div class="cta-bar">
+        <button class="cta-button" onclick="filterCategory('all')">Browse All Products</button>
+        {% for cat in categories %}
+          <button class="category-button" onclick="filterCategory('{{ cat }}')">{{ cat.title() }}</button>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Search products..." />
+    </div>
+
+    <div class="product-grid">
+      {% for product in products %}
+        <div class="product-card" data-category="{{ product.category|lower }}">
+          <a href="{{ url_for('product_detail', slug=product.slug) }}">
+            <img src="{{ url_for('static', filename='images/thumbnails/' + product.filename) }}" alt="{{ product.name }}">
+            <h2 class="product-title">{{ product.name }}</h2>
+          </a>
+          <p class="category">{{ product.category.title() }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 MyDigitalStore. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("mobileMenu");
+      nav.classList.toggle("active");
+    }
+
+    function filterCategory(category) {
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        card.style.display = category === 'all' || cardCategory === category.toLowerCase() ? 'block' : 'none';
+      });
+      document.getElementById("searchInput").value = "";
+    }
+
+    function filterProducts() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const title = card.querySelector('.product-title').innerText.toLowerCase();
+        card.style.display = title.includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

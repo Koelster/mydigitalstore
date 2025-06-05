@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting to PayFast...</title>
+  <meta http-equiv="refresh" content="0; url=https://payfast.co.za/eng/process" />
+</head>
+<body onload="document.forms['payfastForm'].submit();">
+  <h2>Redirecting to PayFast...</h2>
+  <form id="payfastForm" name="payfastForm" method="post" action="https://payfast.co.za/eng/process">
+    <input type="hidden" name="merchant_id" value="{{ payment.merchant_id }}">
+    <input type="hidden" name="merchant_key" value="{{ payment.merchant_key }}">
+    <input type="hidden" name="return_url" value="{{ payment.return_url }}">
+    <input type="hidden" name="cancel_url" value="{{ payment.cancel_url }}">
+    <input type="hidden" name="notify_url" value="{{ payment.notify_url }}">
+    <input type="hidden" name="amount" value="{{ payment.amount }}">
+    <input type="hidden" name="item_name" value="{{ payment.item_name }}">
+    <input type="hidden" name="item_description" value="{{ payment.item_description }}">
+    <input type="hidden" name="custom_str1" value="{{ payment.custom_str1 }}">
+    <noscript>
+      <p>Please click the button below to proceed with your payment:</p>
+      <button type="submit">Pay with PayFast</button>
+    </noscript>
+  </form>
+</body>
+</html>
